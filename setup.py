@@ -1,5 +1,7 @@
 
 import os
+import re
+
 try:
     from setuptools import setup
 except ImportError:
@@ -9,14 +11,16 @@ except ImportError:
 def find_packages(toplevel):
     return [directory.replace(os.path.sep, '.') for directory, subdirs, files in os.walk(toplevel) if '__init__.py' in files]
 
+def get_version():
+    return re.search(r"""__version__\s+=\s+(?P<quote>['"])(?P<version>.+?)(?P=quote)""", open('pythonz/version.py').read()).group('version')
+
+
 setup(name='pythonz',
-      version              = 'dev',
+      version              = get_version(),
       description          = 'Manage python installations in your system',
       long_description     = open('README.rst').read(),
-      author               = 'utahta',
-      author_email         = 'labs.ninxit@gmail.com',
-      maintainer           = 'saghul',
-      maintainer_email     = 'saghul@gmail.com',
+      author               = 'saghul',
+      author_email         = 'saghul@gmail.com',
       url                  = 'https://github.com/saghul/pythonz',
       license              = 'MIT',
       packages             = find_packages('pythonz'),
